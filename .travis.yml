@@ -4,3 +4,11 @@ cache: yarn
 node_js:
 - '6.1'
 script: yarn build
+deploy:
+  provider: npm
+  email: albert.fazullin@flatstack.com
+  api_key:
+    secure: pKbDVvvncubtu98LXQdOjEbZHSdcdZqbWx2m4AmkmhApfkeieTWszabsuFmJDyY3rgTxbLn9/RBOpu0vTYM2JnwUrgfQnApxRa+LrC10y1kj2TQRL+zbjepn8l02lODWBCEhx62kgsGsWERIQxmmzVRPdKxfvClFPQtRLZjnn5vAr6ODoeixYXB7m89apxw9ptNIsb5khS+FNGVQOfc+5u4kuJdDq42K6xmGNzaPcE2XNa1RwzxWXckXAmCMIzNQnBqgGNunFN9HE1l2ec2sZFQDWtllJFDedOmPJH7HKnnR7ucDlZsuN8Sj2XsbE9TomkFEY2sRqCeZc3HH7XjLinf/S3PjNdMi+ObVvdE2J5nYY8ZqDUpJ5I3LL0wWGzsSB63UyrJ5EUaTAwimRWVndKWLyys1VdTv0olL+eNZ0Aft2qeLpZLdePVQZ/qZI5ugtdSAnsPqKssLHZL6MwZZZX0/WbORrnT5vEbUqX+ZVVHNShyu1iw6lhTH3I9DIdmMcXYSskqOUMooyhrR27Kc0MATU4c9m5Nm6zprrAHgWUx5yGHglWViSVhbQ+ZwwohRFuM5X61P1GTxEuoR31YTY1LKqcc8SKuDlR4IktKe3OHuhFhbHTb0ZGRFXcTy8Vz5UBF+8X59tqW11E8AiNNUFhXsRB+ail1Gq9MFrsJ3weo=
+  on:
+    tags: true
+    repo: AlbertFazullin/fs-jwt-xhr-hook
