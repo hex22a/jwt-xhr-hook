@@ -3,3 +3,4 @@ sudo: false
 cache: yarn
 node_js:
 - '6.1'
+script: yanr build
