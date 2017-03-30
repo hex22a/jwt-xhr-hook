@@ -6,6 +6,7 @@
   "repository": "git@github.com:AlbertFazullin/fs-jwt-xhr-hook.git",
   "author": "Albert Fazullin <albert.fazullin@flatstack.com>",
   "scripts": {
+    "start": "yarn build",
     "build:dev": "NODE_ENV=development webpack",
     "build": "NODE_ENV=production webpack -p"
   },
