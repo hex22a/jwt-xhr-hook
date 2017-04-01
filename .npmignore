@@ -6,3 +6,4 @@ src
 yarn.lock
 webpack.config.js
 .idea
+coverage

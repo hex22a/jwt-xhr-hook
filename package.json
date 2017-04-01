@@ -5,8 +5,17 @@
   "main": "lib/index.js",
   "repository": "git@github.com:AlbertFazullin/fs-jwt-xhr-hook.git",
   "author": "Albert Fazullin <albert.fazullin@flatstack.com>",
+  "jest": {
+    "verbose": true,
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "^.+\\.(css|less|pcss)$": "identity-obj-proxy"
+    }
+  },
   "scripts": {
     "start": "yarn build",
+    "test": "NODE_ENV=test jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test:watch": "yarn test -- --watch",
     "build:dev": "NODE_ENV=development webpack",
     "build": "NODE_ENV=production webpack -p"
   },
@@ -18,9 +27,12 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-stage-0": "^6.22.0",
+    "chai": "^3.5.0",
+    "coveralls": "^2.13.0",
     "eslint": "^3.18.0",
     "eslint-config-fs": "^0.1.0",
     "eslint-loader": "^1.7.0",
+    "jest": "^19.0.2",
     "webpack": "^2.3.2"
   }
 }
