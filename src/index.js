@@ -1,1 +1,1 @@
-require('./tokenHook');
+module.exports = require('./tokenHook');
