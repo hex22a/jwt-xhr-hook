@@ -14,7 +14,7 @@ or `npm i --save fs-jwt-xhr-hook` if you are still using npm
 
 Simple import TokenHook using default export.
 
-```ecmascript 6
+```javascript
 import TokenHook, { catchToken, injectToken } from 'fs-jwt-xhr-hook';
 
 import { loginUrl, usersUrl } from './actions/urls';
@@ -26,7 +26,7 @@ hook.installHook(usersUrl, injectToken);
 ```
 
 JWT XHR hook contains 2 built-in callbacks:
-```ecmascript 6
+```javascript
 const defaultCatchOpts = {
   tokens: [
     {
@@ -73,7 +73,7 @@ export const injectToken = (xhr, token = 'authToken') => {
 
 ## Own inject/catch callbacks
 
-```ecmascript 6
+```javascript
 hook.installHook(loginUrl, (xhr, [options, token]) => {
 	// do something
 });
