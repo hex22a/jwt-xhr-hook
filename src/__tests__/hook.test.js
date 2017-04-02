@@ -17,9 +17,21 @@ describe('Hook test', () => {
     hook.installHook('https://test.test/login', catchToken);
   });
 
+  it('Injects hook as a regex to catch token', () => {
+    const hook = new TokenHook();
+    expect(catchToken).to.be.a('function');
+    hook.installHook(/(.*)login/, catchToken);
+  });
+
   it('Injects hook to inject token', () => {
     const hook = new TokenHook();
     expect(injectToken).to.be.a('function');
     hook.installHook('https://test.test/users', injectToken);
+  });
+
+  it('Injects hook as a regex to catch token', () => {
+    const hook = new TokenHook();
+    expect(injectToken).to.be.a('function');
+    hook.installHook(/(.*)users/, injectToken);
   });
 });
