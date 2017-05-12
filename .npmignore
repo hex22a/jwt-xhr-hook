@@ -7,3 +7,5 @@ yarn.lock
 webpack.config.js
 .idea
 coverage
+npm-debug.log
+.ruby-version

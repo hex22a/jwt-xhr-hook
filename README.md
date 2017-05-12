@@ -1,21 +1,21 @@
 # JWT XHR hook
-[![Build Status](https://travis-ci.org/AlbertFazullin/fs-jwt-xhr-hook.svg?branch=master)](https://travis-ci.org/AlbertFazullin/fs-jwt-xhr-hook)
-[![Coverage Status](https://coveralls.io/repos/github/AlbertFazullin/fs-jwt-xhr-hook/badge.svg?branch=master)](https://coveralls.io/github/AlbertFazullin/fs-jwt-xhr-hook?branch=master)
+[![Build Status](https://travis-ci.org/hex22a/jwt-xhr-hook.svg?branch=master)](https://travis-ci.org/hex22a/jwt-xhr-hook)
+[![Coverage Status](https://coveralls.io/repos/github/hex22a/jwt-xhr-hook/badge.svg?branch=master)](https://coveralls.io/github/hex22a/jwt-xhr-hook?branch=master)
 
 XHR hook to save JWT into localStorage and inject it to request. Suppose to work even in browser using `<script>` tag. Но это не точно.
 
 ## Installation
 
-`yarn add fs-jwt-xhr-hook` 
+`yarn add jwt-xhr-hook`
 
-or `npm i --save fs-jwt-xhr-hook` if you are still using npm
+or `npm i --save jwt-xhr-hook` if you are still using npm
 
 ## Usage
 
 Simple import TokenHook using default export.
 
 ```javascript
-import TokenHook, { catchToken, injectToken } from 'fs-jwt-xhr-hook';
+import TokenHook, { catchToken, injectToken } from 'jwt-xhr-hook';
 
 import { loginUrl, usersUrl } from './actions/urls';
 
@@ -87,10 +87,6 @@ PR's are welcome 👍
 
 ## Credits
 Maintained by [Albert Fazullin](http://github.com/AlbertFazullin).
+[hex22a](http://github.com/hex22a) - that's also me.
 
 Twitter: [@hex22a](https://twitter.com/hex22a)
-
-Written by [Flatstack](http://www.flatstack.com).
-
-[<img src="http://www.flatstack.com/logo.svg" width="100"/>](http://www.flatstack.com)
-
