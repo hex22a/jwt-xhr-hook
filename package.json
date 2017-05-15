@@ -7,6 +7,9 @@
   "author": "hex22a <hex22a@gmail.com>",
   "jest": {
     "verbose": true,
+    "setupFiles": [
+      "<rootDir>/__mocks__/localStorageMock.js"
+    ],
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "^.+\\.(css|less|pcss)$": "identity-obj-proxy"
@@ -33,6 +36,8 @@
     "eslint-config-fs": "^0.1.0",
     "eslint-loader": "^1.7.0",
     "jest": "^19.0.2",
+    "sinon": "^2.2.0",
+    "superagent": "^3.5.2",
     "webpack": "^2.3.2"
   }
 }
