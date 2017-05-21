@@ -4,12 +4,14 @@
   "env": {
 	"browser": true,
 	"node": true,
+	"jest": true,
 	"es6": true
   },
   "ecmaFeatures": {
 	"arrowFunctions": true
   },
   "rules": {
-      "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-console": 2
   }
 }

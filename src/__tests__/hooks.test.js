@@ -2,8 +2,7 @@
  * Crafted by x22a on 15.05.17.
  */
 
-import superagent from 'superagent';
-import { useFakeXMLHttpRequest, fakeServer } from 'sinon';
+import { useFakeXMLHttpRequest } from 'sinon';
 import { catchToken, injectToken } from '../hooks';
 
 import { expect } from 'chai';
@@ -17,55 +16,51 @@ const response = {
   },
 };
 
-let xhr, requests, server;
-
 describe('Default hooks tests', () => {
+  let xhr;
+
   beforeEach(() => {
-    requests = [];
-    server = fakeServer.create({
-      autoRespond: true,
-    });
-    server.respondWith("GET", "/api/test", [200, { "Content-Type": "application/json" }, '{ "foo": "bar" }']);
     xhr = useFakeXMLHttpRequest();
-    xhr.onCreate = xhr => {
-      console.log('CREATE', xhr);
-      requests.push(xhr);
-    };
   });
 
   afterEach(() => {
     xhr.restore();
-    server.restore();
     localStorage.clear();
   });
 
   it('Catches default token and saves it to localStorage by default saver', () => {
-    xhr.readyState = 4;
-    xhr.status = 200;
-    xhr.response = response;
-    xhr.responseType = 'json';
-    catchToken(xhr);
+    const expectedXHR = new xhr();
+    expectedXHR.readyState = 4;
+    expectedXHR.status = 200;
+    expectedXHR.responseType = 'json';
+    expectedXHR.response = response;
+
+    catchToken(expectedXHR);
+
     expect(localStorage.getItem('accessToken')).to.equal(response.token.accessToken);
     expect(localStorage.getItem('refreshToken')).to.equal(response.token.refreshToken);
   });
 
   it('Catches default token in text response and saves it to localStorage by default saver', () => {
-    xhr.readyState = 4;
-    xhr.status = 200;
-    xhr.response = JSON.stringify(response);
-    xhr.responseType = 'text';
-    catchToken(xhr);
+    const expectedXHR = new xhr();
+    expectedXHR.readyState = 4;
+    expectedXHR.status = 200;
+    expectedXHR.responseType = 'text';
+    expectedXHR.response = JSON.stringify(response);
+
+    catchToken(expectedXHR);
+
     expect(localStorage.getItem('accessToken')).to.equal(response.token.accessToken);
     expect(localStorage.getItem('refreshToken')).to.equal(response.token.refreshToken);
   });
 
   it('Injects access token from localStorage to request', () => {
+    const expectedXHR = new xhr();
     localStorage.setItem('accessToken', response.token.accessToken);
-    injectToken(xhr);
-    console.log(requests);
-    superagent.get('/api/test').set('Accept', 'application/json').end((err, res) => {
-      console.log(err);
-      console.log(res);
-    });
+    expectedXHR.readyState = 1;
+
+    injectToken(expectedXHR);
+
+    expect(expectedXHR.requestHeaders.Authorization).to.equal(`Bearer ${response.token.accessToken}`);
   });
 });
