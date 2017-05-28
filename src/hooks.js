@@ -8,16 +8,15 @@
  * @param {[string]} path - Token path
  * @constructor
  */
-const Definition = (name, path) => {
-  this.name = name;
-  this.path = path;
-};
+const Definition = (name, path) => ({ name, path });
 
 Definition.prototype = {};
 
+export const createDefinition = Definition;
+
 /**
  * Default definitions
- * @typedef Definition
+ * @typedef Definition[]
  */
 const defaultDefinitions = [
   {
@@ -45,11 +44,11 @@ const defaultSaver = (key, token) => {
  * Default function to catch token from response
  * @function
  * @param xhr - XMLHTTPRequest object
- * @param {object | [object]} [tokenDefinitions=defaultDefinitions] - object or array of objects
+ * @param {object | [object]} [tokenDefinition=defaultDefinitions] - object or array of objects
  * describing how the token is stored in response
  * @param {function} [saver=defaultSaver] - function that saves token. {@link defaultSaver}
  */
-export const catchToken = (xhr, tokenDefinitions = defaultDefinitions, saver = defaultSaver) => {
+export const catchToken = (xhr, tokenDefinition = defaultDefinitions, saver = defaultSaver) => {
   if (xhr.readyState === 4 && xhr.status === 200) {
     let res;
     if (xhr.responseType === 'json') {
@@ -58,12 +57,13 @@ export const catchToken = (xhr, tokenDefinitions = defaultDefinitions, saver = d
       res = JSON.parse(xhr.response);
     }
     if (res) {
-      tokenDefinitions.forEach(({ name, path }) => {
+      const parseAndSave = ({ name, path }) => {
         const resToken = path.reduce((prev, key) => {
           return prev[key];
         }, res);
         saver(name, resToken);
-      });
+      };
+      Array.isArray(tokenDefinition) ? tokenDefinition.forEach(parseAndSave) : parseAndSave(tokenDefinition);
     }
   }
 };

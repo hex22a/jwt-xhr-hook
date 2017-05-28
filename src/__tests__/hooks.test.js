@@ -2,10 +2,10 @@
  * Crafted by x22a on 15.05.17.
  */
 
-import { useFakeXMLHttpRequest } from 'sinon';
-import { catchToken, injectToken } from '../hooks';
+import { useFakeXMLHttpRequest, spy } from 'sinon';
+import { createDefinition, catchToken, injectToken } from '../hooks';
 
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 
 const response = {
   token: {
@@ -15,6 +15,23 @@ const response = {
     refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiYWRtaW4iOmZhbHNlfQ.LlFOUnUtiyym7NVyKWshcrkuwQMGv6AriaTHH4ZK_dI',
   },
 };
+
+describe('Definition creator test', () => {
+  it('Creates token definition object', () => {
+    // Arrange
+    const expectedName = 'token';
+    const expectedPath = ['jwt'];
+    const expectedTokenDefinition = {
+      name: expectedName,
+      path: expectedPath,
+    };
+    // Act
+    const actualTokenDefinition = createDefinition(expectedName, expectedPath);
+
+    // Assert
+    expect(actualTokenDefinition).to.deep.equal(expectedTokenDefinition);
+  });
+});
 
 describe('Default hooks tests', () => {
   let xhr;
@@ -62,5 +79,40 @@ describe('Default hooks tests', () => {
     injectToken(expectedXHR);
 
     expect(expectedXHR.requestHeaders.Authorization).to.equal(`Bearer ${response.token.accessToken}`);
+  });
+
+  it('Catches custom token and saves it to localStorage by default saver', () => {
+    // Arrange
+    const expectedXHR = new xhr();
+    expectedXHR.readyState = 4;
+    expectedXHR.status = 200;
+    expectedXHR.responseType = 'json';
+    expectedXHR.response = { jwt: response.token.accessToken };
+
+    const expectedTokenDefinition = createDefinition('token', ['jwt']);
+
+    // Act
+    catchToken(expectedXHR, expectedTokenDefinition);
+
+    // Assert
+    expect(localStorage.getItem('token')).to.equal(response.token.accessToken);
+  });
+
+  it('Catches custom token and calls custom saver function', () => {
+    // Arrange
+    const expectedXHR = new xhr();
+    expectedXHR.readyState = 4;
+    expectedXHR.status = 200;
+    expectedXHR.responseType = 'json';
+    expectedXHR.response = { jwt: response.token.accessToken };
+
+    const expectedTokenDefinition = createDefinition('token', ['jwt']);
+    const mockSaver = spy();
+
+    // Act
+    catchToken(expectedXHR, expectedTokenDefinition, mockSaver);
+
+    // Assert
+    assert(mockSaver.calledWith('token', response.token.accessToken));
   });
 });
