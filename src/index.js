@@ -2,6 +2,8 @@
  * Crafted by x22a on 27.03.17.
  */
 
+import { catchToken, injectToken } from './hooks';
+
 export default class TokenHook {
   constructor() {
     const instance = this;
@@ -41,7 +43,7 @@ export default class TokenHook {
     };
   }
 
-  convertStrToRegExp(str) {
+  static convertStrToRegExp(str) {
     const targetExpr = str.substring(1, str.length-1);
     return new RegExp(targetExpr);
   }
@@ -49,23 +51,23 @@ export default class TokenHook {
   getHookCallbackForUrl(url) {
     const urlPats = Object.keys(this.hooks);
     for (let iter=0; iter<urlPats.length; iter++){
-      if (this.convertStrToRegExp(urlPats[iter]).test(url)){
+      if (TokenHook.convertStrToRegExp(urlPats[iter]).test(url)){
         return this.hooks[urlPats[iter]];
       }
     }
   }
 
-  adaptAsRegEx(urlPat) {
+  static adaptAsRegEx(urlPat) {
     return new RegExp("^(http(s)?:\/\/)?" + urlPat + "(.)*$");
   }
 
-  installHook(url, callback) {
-    const targetUrl = (url instanceof RegExp) ? url : this.adaptAsRegEx(url);
+  installHook(url, callback = catchToken) {
+    const targetUrl = (url instanceof RegExp) ? url : TokenHook.adaptAsRegEx(url);
     this.hooks[targetUrl] = callback;
   }
 
   removeHook(url) {
-    const targetUrl = (url instanceof RegExp) ? url : this.adaptAsRegEx(url);
+    const targetUrl = (url instanceof RegExp) ? url : TokenHook.adaptAsRegEx(url);
     delete this.hooks[targetUrl];
   }
 
@@ -74,4 +76,4 @@ export default class TokenHook {
   }
 }
 
-export { catchToken, injectToken } from './hooks';
+export { catchToken, injectToken };
