@@ -21,55 +21,13 @@ import { loginUrl, usersUrl } from './actions/urls';
 
 const hook = new TokenHook();
 
+// catch token is default hook BTW
+// hook.installHook(loginUrl);
 hook.installHook(loginUrl, catchToken);
 hook.installHook(usersUrl, injectToken);
 ```
 
-JWT XHR hook contains 2 built-in callbacks:
-```javascript
-const defaultCatchOpts = {
-  tokens: [
-    {
-      name: 'authToken',
-      path: ['token', 'auth_token'],
-    },
-    {
-      name: 'refreshToken',
-      path: ['token', 'refresh_token'],
-    },
-  ],
-  saveToken: (key, token) => {
-    localStorage.setItem(key, token);
-  },
-};
-
-export const catchToken = (xhr, options = defaultCatchOpts) => {
-  const { tokens, saveToken } = options;
-  if (xhr.readyState === 4 && xhr.status === 200) {
-    let res;
-    if (xhr.responseType === 'json') {
-      res = xhr.response;
-    } else if (xhr.responseType === '' || xhr.responseType === 'text') {
-      res = JSON.parse(xhr.response);
-    }
-    if (res) {
-      tokens.forEach(({ name, path }) => {
-        const resToken = path.reduce((prev, key) => {
-          return prev[key];
-        }, res);
-        saveToken(name, resToken);
-      });
-    }
-  }
-};
-
-export const injectToken = (xhr, token = 'authToken') => {
-  const localToken = localStorage.getItem(token);
-  if (xhr.readyState === 1 && localToken) {
-    xhr.setRequestHeader('Authorization', `Bearer ${localToken}`);
-  }
-};
-```
+JWT XHR hook contains 2 built-in [callbacks](src/hooks.js)
 
 ## Own inject/catch callbacks
 
