@@ -1,6 +1,6 @@
 {
   "name": "jwt-xhr-hook",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "XHR hook to save JWT into localStorage and inject it to request",
   "main": "lib/index.js",
   "repository": "git@github.com:hex22a/jwt-xhr-hook.git",
